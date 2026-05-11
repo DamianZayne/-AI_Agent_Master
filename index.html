@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent 开发大师 - 交互式学习平台</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">🤖</span>
+            <span class="brand-text">AI Agent Master</span>
+        </div>
+        <div class="nav-links">
+            <a href="#roadmap" class="active">学习路线</a>
+            <a href="#prompt-generator">Prompt生成器</a>
+            <a href="#visualization">可视化拆解</a>
+            <a href="#progress">学习进度</a>
+        </div>
+        <div class="nav-actions">
+            <button class="btn-secondary" onclick="resetProgress()">重置进度</button>
+            <button class="btn-primary" onclick="exportPlan()">导出计划</button>
+        </div>
+    </nav>
+
+    <!-- 主视觉区 -->
+    <header class="hero">
+        <div class="hero-bg">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="gradient-text">AI Agent</span>
+                <span>开发大师</span>
+            </h1>
+            <p class="hero-subtitle">24周系统化学习 · 每日任务清单 · 自动生成Prompt · 可视化拆解</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">学习阶段</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">168</span>
+                    <span class="stat-label">每日任务</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">20+</span>
+                    <span class="stat-label">实战项目</span>
+                </div>
+            </div>
+            <button class="btn-cta" onclick="scrollToRoadmap()">
+                开始学习之旅
+                <span class="arrow">→</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 学习路线主区域 -->
+    <section id="roadmap" class="roadmap-section">
+        <div class="section-header">
+            <h2>六阶段学习路线</h2>
+            <p>点击任意阶段展开详细每日任务清单</p>
+        </div>
+
+        <!-- 阶段时间轴 -->
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            
+            <!-- 阶段1: 基础夯实期 -->
+            <div class="phase-card" data-phase="1" onclick="togglePhase(1)">
+                <div class="phase-marker">
+                    <span class="phase-number">01</span>
+                    <div class="phase-progress"></div>
+                </div>
+                <div class="phase-content">
+                    <div class="phase-header">
+                        <h3>基础夯实期</h3>
+                        <span class="phase-badge">Week 1-4</span>
+                    </div>
+                    <p class="phase-desc">Python进阶 / LLM基础 / API调用 / RAG入门</p>
+                    <div class="phase-meta">
+                        <span class="meta-item">📚 4周课程</span>
+                        <span class="meta-item">📝 28个任务</span>
+                        <span class="meta-item">🎯 4个产出</span>
+                    </div>
+                    <div class="expand-hint">点击查看每日任务清单 →</div>
+                </div>
+                <div class="phase-icon">🏗️</div>
+            </div>
+
+            <!-- 阶段1 详细内容 (可展开) -->
+            <div id="phase-detail-1" class="phase-detail">
+                <div class="detail-header">
+                    <h4>阶段一：基础夯实期 - 每日任务清单</h4>
+                    <button class="btn-generate-prompt" onclick="generatePrompt(1, event)">
+                        ✨ 生成本阶段学习Prompt
+                    </button>
+                </div>
+                <div class="weeks-container">
+                    <!-- Week 1 -->
+                    <div class="week-card">
+                        <div class="week-header" onclick="toggleWeek(this)">
+                            <span class="week-title">Week 1: Python进阶</span>
+                            <span class="week-toggle">▼</span>
+                        </div>
+                        <div class="week-content">
+                            <div class="day-tasks">
+                                <div class="day-item">
+                                    <div class="day-header">
+                                        <span class="day-label">Day 1</span>
+                                        <span class="day-topic">异步编程基础</span>
+                                        <button class="btn-day-prompt" onclick="generateDayPrompt(1, 1, event)">📝 Prompt</button>
+                                    </div>
+                                    <div class="day-details">
+                                        <div class="task-list">
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d1-1" onchange="saveProgress()">
+                                                <label for="p1w1d1-1">学习asyncio核心概念：事件循环、协程、任务</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d1-2" onchange="saveProgress()">
+                                                <label for="p1w1d1-2">阅读官方文档：asyncio — Asynchronous I/O</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d1-3" onchange="saveProgress()">
+                                                <label for="p1w1d1-3">完成练习：编写第一个async/await函数</label>
+                                            </div>
+                                        </div>
+                                        <div class="day-output">
+                                            <strong>产出物：</strong>一个基础的异步HTTP请求脚本
+                                        </div>
+                                        <div class="day-resources">
+                                            <strong>推荐资源：</strong>
+                                            <a href="#" onclick="showResource('asyncio-guide')">Python Asyncio完全指南</a>
+                                            <a href="#" onclick="showResource('async-patterns')">异步设计模式</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="day-item">
+                                    <div class="day-header">
+                                        <span class="day-label">Day 2</span>
+                                        <span class="day-topic">并发执行与Gather</span>
+                                        <button class="btn-day-prompt" onclick="generateDayPrompt(1, 2, event)">📝 Prompt</button>
+                                    </div>
+                                    <div class="day-details">
+                                        <div class="task-list">
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d2-1" onchange="saveProgress()">
+                                                <label for="p1w1d2-1">学习asyncio.gather()批量执行协程</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d2-2" onchange="saveProgress()">
+                                                <label for="p1w1d2-2">理解并发 vs 并行的区别</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d2-3" onchange="saveProgress()">
+                                                <label for="p1w1d2-3">实践：并发下载多个网页</label>
+                                            </div>
+                                        </div>
+                                        <div class="day-output">
+                                            <strong>产出物：</strong>并发网页爬虫（5个URL同时下载）
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="day-item">
+                                    <div class="day-header">
+                                        <span class="day-label">Day 3</span>
+                                        <span class="day-topic">类型注解与Type Hints</span>
+                                        <button class="btn-day-prompt" onclick="generateDayPrompt(1, 3, event)">📝 Prompt</button>
+                                    </div>
+                                    <div class="day-details">
+                                        <div class="task-list">
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d3-1" onchange="saveProgress()">
+                                                <label for="p1w1d3-1">学习typing模块：List, Dict, Optional, Union</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d3-2" onchange="saveProgress()">
+                                                <label for="p1w1d3-2">理解泛型：TypeVar, Generic</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d3-3" onchange="saveProgress()">
+                                                <label for="p1w1d3-3">配置mypy进行静态类型检查</label>
+                                            </div>
+                                        </div>
+                                        <div class="day-output">
+                                            <strong>产出物：</strong>为现有代码添加完整类型注解
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="day-item">
+                                    <div class="day-header">
+                                        <span class="day-label">Day 4</span>
+                                        <span class="day-topic">装饰器与上下文管理器</span>
+                                        <button class="btn-day-prompt" onclick="generateDayPrompt(1, 4, event)">📝 Prompt</button>
+                                    </div>
+                                    <div class="day-details">
+                                        <div class="task-list">
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d4-1" onchange="saveProgress()">
+                                                <label for="p1w1d4-1">深入理解装饰器原理：@wraps、参数传递</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d4-2" onchange="saveProgress()">
+                                                <label for="p1w1d4-2">学习上下文管理器：__enter__, __exit__</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d4-3" onchange="saveProgress()">
+                                                <label for="p1w1d4-3">实践：实现计时装饰器和资源管理器</label>
+                                            </div>
+                                        </div>
+                                        <div class="day-output">
+                                            <strong>产出物：</strong>性能监控装饰器 + 数据库连接池管理器
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="day-item">
+                                    <div class="day-header">
+                                        <span class="day-label">Day 5-7</span>
+                                        <span class="day-topic">Week 1 项目实战</span>
+                                        <button class="btn-day-prompt" onclick="generateDayPrompt(1, 5, event)">📝 Prompt</button>
+                                    </div>
+                                    <div class="day-details">
+                                        <div class="task-list">
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d5-1" onchange="saveProgress()">
+                                                <label for="p1w1d5-1">【项目】将同步脚本重构为异步版本</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d5-2" onchange="saveProgress()">
+                                                <label for="p1w1d5-2">添加类型注解和文档字符串</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d5-3" onchange="saveProgress()">
+                                                <label for="p1w1d5-3">编写单元测试（pytest + asyncio）</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w1d5-4" onchange="saveProgress()">
+                                                <label for="p1w1d5-4">性能对比：同步 vs 异步执行时间</label>
+                                            </div>
+                                        </div>
+                                        <div class="day-output highlight">
+                                            <strong>🎯 Week 1 最终产出：</strong>完整的异步HTTP客户端库
+                                            <br><small>包含：并发请求、重试机制、类型注解、单元测试</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Week 2 -->
+                    <div class="week-card">
+                        <div class="week-header" onclick="toggleWeek(this)">
+                            <span class="week-title">Week 2: LLM基础原理</span>
+                            <span class="week-toggle">▼</span>
+                        </div>
+                        <div class="week-content collapsed">
+                            <div class="day-tasks">
+                                <div class="day-item">
+                                    <div class="day-header">
+                                        <span class="day-label">Day 8</span>
+                                        <span class="day-topic">Transformer架构详解</span>
+                                        <button class="btn-visualize" onclick="showVisualization('transformer')">🔬 可视化</button>
+                                    </div>
+                                    <div class="day-details">
+                                        <div class="task-list">
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d1-1" onchange="saveProgress()">
+                                                <label for="p1w2d1-1">学习Transformer论文《Attention Is All You Need》</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d1-2" onchange="saveProgress()">
+                                                <label for="p1w2d1-2">理解Self-Attention机制数学原理</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d1-3" onchange="saveProgress()">
+                                                <label for="p1w2d1-3">学习位置编码：绝对位置 vs 相对位置</label>
+                                            </div>
+                                        </div>
+                                        <div class="visualization-preview" onclick="showVisualization('transformer')">
+                                            <div class="preview-title">Transformer架构可视化</div>
+                                            <div class="preview-diagram">
+                                                <div class="diagram-node">Input</div>
+                                                <div class="diagram-arrow">↓</div>
+                                                <div class="diagram-node">Embedding</div>
+                                                <div class="diagram-arrow">↓</div>
+                                                <div class="diagram-node">Multi-Head Attention</div>
+                                                <div class="diagram-arrow">↓</div>
+                                                <div class="diagram-node">Feed Forward</div>
+                                                <div class="diagram-arrow">↓</div>
+                                                <div class="diagram-node">Output</div>
+                                            </div>
+                                            <div class="preview-hint">点击查看完整可视化拆解 →</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="day-item">
+                                    <div class="day-header">
+                                        <span class="day-label">Day 9</span>
+                                        <span class="day-topic">Attention机制数学推导</span>
+                                        <button class="btn-visualize" onclick="showVisualization('attention-math')">📐 公式推导</button>
+                                    </div>
+                                    <div class="day-details">
+                                        <div class="task-list">
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d2-1" onchange="saveProgress()">
+                                                <label for="p1w2d2-1">手推Attention公式：Q, K, V矩阵计算</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d2-2" onchange="saveProgress()">
+                                                <label for="p1w2d2-2">理解Scaled Dot-Product Attention</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d2-3" onchange="saveProgress()">
+                                                <label for="p1w2d2-3">Multi-Head Attention的并行计算</label>
+                                            </div>
+                                        </div>
+                                        <div class="formula-box">
+                                            <div class="formula-title">核心公式</div>
+                                            <div class="formula">
+                                                $$\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+                                            </div>
+                                            <button class="btn-derive" onclick="showDerivation('attention')">📝 查看分步推导</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="day-item">
+                                    <div class="day-header">
+                                        <span class="day-label">Day 10</span>
+                                        <span class="day-topic">Prompt Engineering基础</span>
+                                        <button class="btn-day-prompt" onclick="generateDayPrompt(1, 10, event)">📝 Prompt</button>
+                                    </div>
+                                    <div class="day-details">
+                                        <div class="task-list">
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d3-1" onchange="saveProgress()">
+                                                <label for="p1w2d3-1">学习Zero-shot、Few-shot、CoT提示技术</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d3-2" onchange="saveProgress()">
+                                                <label for="p1w2d3-2">理解System Prompt vs User Prompt</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d3-3" onchange="saveProgress()">
+                                                <label for="p1w2d3-3">实践：设计不同场景的Prompt模板</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="day-item">
+                                    <div class="day-header">
+                                        <span class="day-label">Day 11-14</span>
+                                        <span class="day-topic">Week 2 项目：Prompt模板库</span>
+                                        <button class="btn-day-prompt" onclick="generateDayPrompt(1, 11, event)">📝 Prompt</button>
+                                    </div>
+                                    <div class="day-details">
+                                        <div class="task-list">
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d4-1" onchange="saveProgress()">
+                                                <label for="p1w2d4-1">设计10个通用Prompt模板（分类、摘要、翻译等）</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d4-2" onchange="saveProgress()">
+                                                <label for="p1w2d4-2">实现Prompt版本管理和A/B测试框架</label>
+                                            </div>
+                                            <div class="task-item">
+                                                <input type="checkbox" id="p1w2d4-3" onchange="saveProgress()">
+                                                <label for="p1w2d4-3">添加Prompt效果评估指标</label>
+                                            </div>
+                                        </div>
+                                        <div class="day-output highlight">
+                                            <strong>🎯 Week 2 最终产出：</strong>企业级Prompt模板库
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Week 3 & 4 简化展示 -->
+                    <div class="week-card compact">
+                        <div class="week-header" onclick="toggleWeek(this)">
+                            <span class="week-title">Week 3: API调用与工程实践</span>
+                            <span class="week-meta">7个每日任务</span>
+                            <span class="week-toggle">▼</span>
+                        </div>
+                    </div>
+                    <div class="week-card compact">
+                        <div class="week-header" onclick="toggleWeek(this)">
+                            <span class="week-title">Week 4: RAG系统入门</span>
+                            <span class="week-meta">7个每日任务</span>
+                            <span class="week-toggle">▼</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="phase-summary">
+                    <div class="summary-stats">
+                        <div class="summary-item">
+                            <span class="summary-label">本阶段总任务</span>
+                            <span class="summary-value">28个</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">预计学习时间</span>
+                            <span class="summary-value">60小时</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">核心产出</span>
+                            <span class="summary-value">4个</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 阶段2-6 简化卡片 -->
+            <div class="phase-card" data-phase="2" onclick="togglePhase(2)">
+                <div class="phase-marker"><span class="phase-number">02</span></div>
+                <div class="phase-content">
+                    <div class="phase-header">
+                        <h3>核心能力期</h3>
+                        <span class="phase-badge">Week 5-8</span>
+                    </div>
+                    <p class="phase-desc">Agent架构 / 记忆系统 / 工具使用 / 规划能力</p>
+                    <div class="phase-meta">
+                        <span class="meta-item">🎯 ReAct实现</span>
+                        <span class="meta-item">🧠 记忆管理</span>
+                        <span class="meta-item">🔧 工具注册</span>
+                    </div>
+                </div>
+                <div class="phase-icon">🧠</div>
+            </div>
+
+            <div class="phase-card" data-phase="3" onclick="togglePhase(3)">
+                <div class="phase-marker"><span class="phase-number">03</span></div>
+                <div class="phase-content">
+                    <div class="phase-header">
+                        <h3>框架精通期</h3>
+                        <span class="phase-badge">Week 9-12</span>
+                    </div>
+                    <p class="phase-desc">LangChain / LlamaIndex / 高级模式 / 框架对比</p>
+                    <div class="phase-meta">
+                        <span class="meta-item">⛓️ LCEL</span>
+                        <span class="meta-item">📇 Indexing</span>
+                        <span class="meta-item">👤 Human-in-loop</span>
+                    </div>
+                </div>
+                <div class="phase-icon">⚙️</div>
+            </div>
+
+            <div class="phase-card" data-phase="4" onclick="togglePhase(4)">
+                <div class="phase-marker"><span class="phase-number">04</span></div>
+                <div class="phase-content">
+                    <div class="phase-header">
+                        <h3>Multi-Agent编排</h3>
+                        <span class="phase-badge">Week 13-16</span>
+                    </div>
+                    <p class="phase-desc">多Agent协作 / CrewAI / LangGraph / 设计模式</p>
+                    <div class="phase-meta">
+                        <span class="meta-item">👥 CrewAI</span>
+                        <span class="meta-item">🔄 LangGraph</span>
+                        <span class="meta-item">🎭 角色定义</span>
+                    </div>
+                </div>
+                <div class="phase-icon">👥</div>
+            </div>
+
+            <div class="phase-card" data-phase="5" onclick="togglePhase(5)">
+                <div class="phase-marker"><span class="phase-number">05</span></div>
+                <div class="phase-content">
+                    <div class="phase-header">
+                        <h3>工程化与产品化</h3>
+                        <span class="phase-badge">Week 17-20</span>
+                    </div>
+                    <p class="phase-desc">性能优化 / 安全对齐 / 可观测性 / 部署运维</p>
+                    <div class="phase-meta">
+                        <span class="meta-item">⚡ 性能</span>
+                        <span class="meta-item">🔒 安全</span>
+                        <span class="meta-item">📊 监控</span>
+                    </div>
+                </div>
+                <div class="phase-icon">🚀</div>
+            </div>
+
+            <div class="phase-card" data-phase="6" onclick="togglePhase(6)">
+                <div class="phase-marker"><span class="phase-number">06</span></div>
+                <div class="phase-content">
+                    <div class="phase-header">
+                        <h3>领域专精与前沿</h3>
+                        <span class="phase-badge">Week 21-24</span>
+                    </div>
+                    <p class="phase-desc">领域深入 / 前沿跟进 / 开源贡献 / 建立影响力</p>
+                    <div class="phase-meta">
+                        <span class="meta-item">💻 代码Agent</span>
+                        <span class="meta-item">🔬 研究Agent</span>
+                        <span class="meta-item">🌟 开源</span>
+                    </div>
+                </div>
+                <div class="phase-icon">⭐</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prompt生成器区域 -->
+    <section id="prompt-generator" class="prompt-section">
+        <div class="section-header">
+            <h2>🎯 智能Prompt生成器</h2>
+            <p>选择学习阶段，自动生成保姆级学习Prompt</p>
+        </div>
+        
+        <div class="prompt-generator">
+            <div class="prompt-config">
+                <div class="config-group">
+                    <label>选择阶段</label>
+                    <select id="prompt-phase" onchange="updatePromptPreview()">
+                        <option value="1">阶段一：基础夯实期 (Week 1-4)</option>
+                        <option value="2">阶段二：核心能力期 (Week 5-8)</option>
+                        <option value="3">阶段三：框架精通期 (Week 9-12)</option>
+                        <option value="4">阶段四：Multi-Agent编排 (Week 13-16)</option>
+                        <option value="5">阶段五：工程化产品化 (Week 17-20)</option>
+                        <option value="6">阶段六：领域专精前沿 (Week 21-24)</option>
+                    </select>
+                </div>
+                <div class="config-group">
+                    <label>学习风格</label>
+                    <select id="prompt-style" onchange="updatePromptPreview()">
+                        <option value="detailed">详细拆解型（推荐）</option>
+                        <option value="hands-on">实战项目型</option>
+                        <option value="theory">理论深入型</option>
+                        <option value="interview">面试准备型</option>
+                    </select>
+                </div>
+                <div class="config-group">
+                    <label>每日学习时长</label>
+                    <select id="prompt-hours" onchange="updatePromptPreview()">
+                        <option value="2">2小时（轻量）</option>
+                        <option value="4" selected>4小时（标准）</option>
+                        <option value="6">6小时（强化）</option>
+                        <option value="8">8小时（全职）</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="prompt-preview">
+                <div class="preview-header">
+                    <span>生成的Prompt预览</span>
+                    <button class="btn-copy" onclick="copyPrompt()">📋 复制</button>
+                </div>
+                <div class="preview-content" id="prompt-preview-content">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+            
+            <button class="btn-generate-full" onclick="generateFullPrompt()">
+                ✨ 生成完整Prompt并发送到AI助手
+            </button>
+        </div>
+    </section>
+
+    <!-- 可视化拆解区域 -->
+    <section id="visualization" class="viz-section">
+        <div class="section-header">
+            <h2>🔬 核心算法可视化拆解</h2>
+            <p>像ResNet、Adam、Transformer等核心知识，分步讲解并可视化</p>
+        </div>
+        
+        <div class="viz-grid">
+            <div class="viz-card" onclick="showVisualization('transformer')">
+                <div class="viz-icon">🔄</div>
+                <h4>Transformer架构</h4>
+                <p>Self-Attention机制完全图解</p>
+                <span class="viz-tag">基础</span>
+            </div>
+            <div class="viz-card" onclick="showVisualization('attention-math')">
+                <div class="viz-icon">📐</div>
+                <h4>Attention数学推导</h4>
+                <p>Q/K/V矩阵计算分步详解</p>
+                <span class="viz-tag">数学</span>
+            </div>
+            <div class="viz-card" onclick="showVisualization('react')">
+                <div class="viz-icon">🔄</div>
+                <h4>ReAct循环</h4>
+                <p>Reasoning + Acting流程图</p>
+                <span class="viz-tag">Agent</span>
+            </div>
+            <div class="viz-card" onclick="showVisualization('rag')">
+                <div class="viz-icon">🔍</div>
+                <h4>RAG流程</h4>
+                <p>检索增强生成完整链路</p>
+                <span class="viz-tag">RAG</span>
+            </div>
+            <div class="viz-card" onclick="showVisualization('multi-agent')">
+                <div class="viz-icon">👥</div>
+                <h4>Multi-Agent协作</h4>
+                <p>多Agent通信与编排拓扑</p>
+                <span class="viz-tag">高级</span>
+            </div>
+            <div class="viz-card" onclick="showVisualization('adam')">
+                <div class="viz-icon">📈</div>
+                <h4>Adam优化器</h4>
+                <p>自适应学习率算法详解</p>
+                <span class="viz-tag">优化</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 可视化模态框 -->
+    <div id="viz-modal" class="modal">
+        <div class="modal-content viz-modal-content">
+            <div class="modal-header">
+                <h3 id="viz-title">可视化标题</h3>
+                <button class="btn-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="viz-body">
+                <!-- 动态内容 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Prompt模态框 -->
+    <div id="prompt-modal" class="modal">
+        <div class="modal-content prompt-modal-content">
+            <div class="modal-header">
+                <h3>📝 学习Prompt已生成</h3>
+                <button class="btn-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="prompt-instruction">
+                    <p>复制以下Prompt，发送给AI助手（如ChatGPT、Claude等），即可获得保姆级学习指导：</p>
+                </div>
+                <div class="prompt-box" id="generated-prompt"></div>
+                <div class="prompt-actions">
+                    <button class="btn-copy-large" onclick="copyGeneratedPrompt()">
+                        📋 复制Prompt
+                    </button>
+                    <button class="btn-open-ai" onclick="openAIChat()">
+                        🤖 打开AI助手
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>AI Agent 开发大师学习平台 · 2026 Edition</p>
+            <p class="footer-sub">逻辑闭环 · 每日清单 · 自动生成 · 可视化拆解</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
