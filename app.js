@@ -116,21 +116,21 @@ graph TD
                 <h4>Step 1: 计算Query, Key, Value矩阵</h4>
                 <div class="formula-step">
                     <div class="formula-display">
-                        $$Q = XW^Q, \quad K = XW^K, \quad V = XW^V$$
+                        $$Q = XW^Q, \\quad K = XW^K, \\quad V = XW^V$$
                     </div>
                     <div class="formula-explain">
-                        <p>其中 $X \in \mathbb{R}^{n \times d_{model}}$ 是输入序列</p>
-                        <p>$W^Q, W^K \in \mathbb{R}^{d_{model} \times d_k}$, $W^V \in \mathbb{R}^{d_{model} \times d_v}$</p>
+                        <p>其中 $X \\in R^{n \\times d_{model}}$ 是输入序列</p>
+                        <p>$W^Q, W^K \\in R^{d_{model} \\times d_k}$, $W^V \\in R^{d_{model} \\times d_v}$</p>
                     </div>
                 </div>
                 
                 <h4>Step 2: 计算Attention分数</h4>
                 <div class="formula-step">
                     <div class="formula-display">
-                        $$\text{scores} = \frac{QK^T}{\sqrt{d_k}}$$
+                        $$\\text{scores} = \\frac{QK^T}{\\sqrt{d_k}}$$
                     </div>
                     <div class="formula-explain">
-                        <p>除以 $\sqrt{d_k}$ 是为了防止点积过大导致softmax梯度消失</p>
+                        <p>除以 $\\sqrt{d_k}$ 是为了防止点积过大导致softmax梯度消失</p>
                         <p>当 $d_k$ 较大时，点积的方差会增大</p>
                     </div>
                 </div>
@@ -138,7 +138,7 @@ graph TD
                 <h4>Step 3: Softmax归一化</h4>
                 <div class="formula-step">
                     <div class="formula-display">
-                        $$\text{attention\_weights} = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)$$
+                        $$\\text{attention\\_weights} = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)$$
                     </div>
                     <div class="formula-explain">
                         <p>将分数转换为概率分布，每行和为1</p>
@@ -148,7 +148,7 @@ graph TD
                 <h4>Step 4: 加权求和得到输出</h4>
                 <div class="formula-step">
                     <div class="formula-display">
-                        $$\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+                        $$\\text{Attention}(Q,K,V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V$$
                     </div>
                     <div class="formula-explain">
                         <p>最终输出是Value向量的加权组合</p>
@@ -324,31 +324,31 @@ graph TD
                     <div class="algo-step">
                         <div class="step-header">Step 1: 计算梯度</div>
                         <div class="step-formula">
-                            $$g_t = \nabla_\theta f_t(\theta_{t-1})$$
+                            $$g_t = \\nabla_\\theta f_t(\\theta_{t-1})$$
                         </div>
                     </div>
                     <div class="algo-step">
                         <div class="step-header">Step 2: 更新一阶矩（动量）</div>
                         <div class="step-formula">
-                            $$m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t$$
+                            $$m_t = \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t$$
                         </div>
                     </div>
                     <div class="algo-step">
                         <div class="step-header">Step 3: 更新二阶矩（自适应学习率）</div>
                         <div class="step-formula">
-                            $$v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2$$
+                            $$v_t = \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot g_t^2$$
                         </div>
                     </div>
                     <div class="algo-step">
                         <div class="step-header">Step 4: 偏差修正</div>
                         <div class="step-formula">
-                            $$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}, \quad \hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$
+                            $$\\hat{m}_t = \\frac{m_t}{1 - \\beta_1^t}, \\quad \\hat{v}_t = \\frac{v_t}{1 - \\beta_2^t}$$
                         </div>
                     </div>
                     <div class="algo-step">
                         <div class="step-header">Step 5: 参数更新</div>
                         <div class="step-formula">
-                            $$\theta_t = \theta_{t-1} - \frac{\alpha \cdot \hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}$$
+                            $$\\theta_t = \\theta_{t-1} - \\frac{\\alpha \\cdot \\hat{m}_t}{\\sqrt{\\hat{v}_t} + \\epsilon}$$
                         </div>
                     </div>
                 </div>
